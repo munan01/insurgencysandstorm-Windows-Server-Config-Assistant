@@ -1,0 +1,80 @@
+
+; Bab
+(Scenario="Scenario_Bab_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Bab_Checkpoint_Security",Lighting="Day")
+
+; Buhriz (Tideway)
+(Scenario="Scenario_Tideway_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Tideway_Checkpoint_Security",Lighting="Day")
+
+; Canyon (Crossing)
+(Scenario="Scenario_Crossing_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Crossing_Checkpoint_Security",Lighting="Day")
+
+; Citadel
+(Scenario="Scenario_Citadel_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Citadel_Checkpoint_Security",Lighting="Day")
+
+; Compound (Outskirts)
+(Scenario="Scenario_Outskirts_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Outskirts_Checkpoint_Security",Lighting="Day")
+
+; Farmhouse
+(Scenario="Scenario_Farmhouse_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Farmhouse_Checkpoint_Security",Lighting="Day")
+
+; Forest
+(Scenario="Scenario_Forest_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Forest_Checkpoint_Security",Lighting="Day")
+
+; Gap
+(Scenario="Scenario_Gap_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Gap_Checkpoint_Security",Lighting="Day")
+
+; Hold
+(Scenario="Scenario_Hold_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Hold_Checkpoint_Security",Lighting="Day")
+
+; LastLight
+(Scenario="Scenario_LastLight_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_LastLight_Checkpoint_Security",Lighting="Day")
+
+; Ministry
+(Scenario="Scenario_Ministry_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Ministry_Checkpoint_Security",Lighting="Day")
+
+; Mountain (Summit)
+(Scenario="Scenario_Summit_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Summit_Checkpoint_Security",Lighting="Day")
+
+; Oilfield (Refinery)
+(Scenario="Scenario_Refinery_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Refinery_Checkpoint_Security",Lighting="Day")
+
+; PowerPlant
+(Scenario="Scenario_PowerPlant_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_PowerPlant_Checkpoint_Security",Lighting="Day")
+
+; Precinct
+(Scenario="Scenario_Precinct_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Precinct_Checkpoint_Security",Lighting="Day")
+
+; Prison
+(Scenario="Scenario_Prison_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Prison_Checkpoint_Security",Lighting="Day")
+
+; Sinjar (Hillside)
+(Scenario="Scenario_Hillside_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Hillside_Checkpoint_Security",Lighting="Day")
+
+; Tell
+(Scenario="Scenario_Tell_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Tell_Checkpoint_Security",Lighting="Day")
+
+; Town (Hideout)
+(Scenario="Scenario_Hideout_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Hideout_Checkpoint_Security",Lighting="Day")
+
+; Trainyard
+(Scenario="Scenario_Trainyard_Checkpoint_Insurgents",Lighting="Day")
+(Scenario="Scenario_Trainyard_Checkpoint_Security",Lighting="Day")

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>沙暴服务器管理包 · 使用说明</title>
+    <!-- Font Awesome 6 (免费) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== 全局重置 & 变量 ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-page: #f6f8fa;
+            --bg-card: #ffffff;
+            --bg-code: #f0f2f5;
+            --bg-table-stripe: #f8f9fb;
+            --border-light: #e9ecf0;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --text-code: #0b2e4a;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-soft: #eff4ff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Courier New', monospace;
+            --transition: 0.2s ease;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-page);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* ===== 主容器 ===== */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            padding: 2.5rem 2.8rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.75rem;
+            }
+            .container {
+                padding: 1.5rem 1.2rem;
+                border-radius: 10px;
+            }
+        }
+
+        /* ===== 排版 ===== */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+        h1 i {
+            color: var(--accent);
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+            background: var(--accent-soft);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            padding: 0.6rem 1.2rem;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 650;
+            margin-top: 2.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
+        }
+        h2 i {
+            color: var(--accent);
+            font-size: 1.3rem;
+            width: 1.8rem;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-top: 1.6rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        h3 i {
+            color: var(--accent);
+            font-size: 1rem;
+            width: 1.6rem;
+            text-align: center;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color var(--transition);
+        }
+        a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        /* ===== 代码 / 路径 ===== */
+        code,
+        .code-block {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            background: var(--bg-code);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            color: var(--text-code);
+            word-break: break-all;
+        }
+
+        .code-block {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            margin: 0.6rem 0 1rem 0;
+            border-left: 3px solid var(--accent);
+            background: var(--bg-code);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        /* ===== 目录树 ===== */
+        .tree {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            background: var(--bg-code);
+            padding: 1.2rem 1.6rem;
+            border-radius: var(--radius-sm);
+            margin: 0.8rem 0 1.2rem 0;
+            line-height: 1.9;
+            overflow-x: auto;
+            color: var(--text-code);
+        }
+        .tree .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .tree .comment {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* ===== 表格 ===== */
+        .table-wrap {
+            overflow-x: auto;
+            margin: 1rem 0 1.4rem 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            background: var(--bg-card);
+        }
+        th {
+            background: var(--bg-code);
+            font-weight: 600;
+            text-align: left;
+            padding: 0.7rem 1rem;
+            border-bottom: 2px solid var(--border-light);
+            color: var(--text-primary);
+        }
+        td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tbody tr:hover {
+            background: var(--bg-table-stripe);
+        }
+        td code {
+            font-size: 0.82rem;
+            background: var(--bg-code);
+        }
+
+        /* ===== 列表 ===== */
+        ul,
+        ol {
+            padding-left: 1.6rem;
+            margin: 0.6rem 0 1rem 0;
+            color: var(--text-secondary);
+        }
+        li {
+            margin-bottom: 0.4rem;
+        }
+        li code {
+            font-size: 0.82rem;
+        }
+
+        /* ===== 卡片 / 提示块 ===== */
+        .notice {
+            background: var(--accent-soft);
+            border-left: 4px solid var(--accent);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0 1.2rem 0;
+            color: var(--text-primary);
+        }
+        .notice i {
+            color: var(--accent);
+            margin-right: 0.4rem;
+        }
+
+        .warning {
+            background: #fef9e7;
+            border-left: 4px solid #f59e0b;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0 1.2rem 0;
+            color: #78350f;
+        }
+        .warning i {
+            color: #f59e0b;
+            margin-right: 0.4rem;
+        }
+
+        /* ===== 步骤标记 ===== */
+        .step-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.75rem;
+            width: 1.7rem;
+            height: 1.7rem;
+            line-height: 1.7rem;
+            text-align: center;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* ===== 命令块 ===== */
+        .command-box {
+            background: #1e293b;
+            color: #e2e8f0;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius-sm);
+            margin: 0.4rem 0 0.8rem 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .command-box .prompt {
+            color: #94a3b8;
+            user-select: none;
+        }
+
+        /* ===== 响应式微调 ===== */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+                flex-wrap: wrap;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            h3 {
+                font-size: 1rem;
+            }
+            .container {
+                padding: 1rem 0.8rem;
+            }
+            .tree {
+                font-size: 0.75rem;
+                padding: 0.8rem 1rem;
+            }
+            td,
+            th {
+                padding: 0.5rem 0.6rem;
+                font-size: 0.82rem;
+            }
+            .code-block {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .command-box {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.8rem;
+            }
+        }
+
+        /* ===== 滚动条美化 ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-code);
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* ===== 图标与文字对齐 ===== */
+        .flex-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid var(--border-light);
+            margin: 2rem 0 1rem 0;
+        }
+        hr.light {
+            border-top: 1px solid var(--border-light);
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <h1>
+            <i class="fas fa-server"></i>
+            沙暴服务器管理包
+            <span style="font-size:1rem;font-weight:400;color:var(--text-muted);margin-left:0.4rem;">使用说明</span>
+        </h1>
+        <div class="subtitle">
+            <i class="fas fa-rotate-right" style="margin-right:0.4rem;"></i>
+            自动重启 · 日志备份 · 双服管理 · 开包即用
+        </div>
+
+        <!-- ===== 一、目录结构 ===== -->
+        <h2><i class="fas fa-folder-tree"></i> 一、目录结构</h2>
+        <div class="tree">
+            <span style="color:var(--accent);font-weight:700;">服务器管理包\</span><br />
+            ├─ ARS.bat                          <span class="comment">← 定时重启主控脚本</span><br />
+            ├─ InstallTask.bat                  <span class="comment">← 计划任务安装脚本（双击即装）</span><br />
+            ├─ <span class="highlight">Run\</span>                             <span class="comment">← 启动脚本目录</span><br />
+            │  ├─ #1#Origin#RUN.bat             <span class="comment">← 1服启动脚本</span><br />
+            │  └─ #2#Mod#RUN.bat                <span class="comment">← 2服启动脚本</span><br />
+            ├─ <span class="highlight">ARSlog\</span>                          <span class="comment">← 主控日志目录（自动创建）</span><br />
+            │  └─ ARSTaskLog.txt                <span class="comment">← 记录备份/关服/启动全过程</span><br />
+            ├─ <span class="highlight">LogBackup\</span>                       <span class="comment">← 日志备份目录（自动创建）</span><br />
+            │  ├─ #1#Origin#log#2026-06-27-03-00-00.log<br />
+            │  └─ #2#Mod#log#2026-06-27-03-00-00.log<br />
+            ├─ <span class="highlight">Motd\</span>                            <span class="comment">← 服务器公告</span><br />
+            │  ├─ #1#Origin#Motd.txt<br />
+            │  └─ #2#Mod#Motd.txt<br />
+            ├─ <span class="highlight">Admin\</span>                           <span class="comment">← 管理员名单</span><br />
+            │  └─ Admins.txt<br />
+            ├─ <span class="highlight">Map\</span>                             <span class="comment">← 地图池配置</span><br />
+            │  ├─ MapDayandNight.txt<br />
+            │  └─ MapOnlyDay.txt<br />
+            └─ <span class="highlight">Gameini\</span>                         <span class="comment">← 游戏规则配置</span><br />
+            ├─ #1#Origin#Game.ini<br />
+            └─ #2#Mod#Game.ini
+        </div>
+
+        <!-- ===== 二、各文件职责 ===== -->
+        <h2><i class="fas fa-list-check"></i> 二、各文件职责</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>文件</th><th>功能</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>ARS.bat</code></td><td>定时重启主控。流程：备份日志 → 关闭旧进程 → 间隔10秒依次启动1服和2服</td></tr>
+                    <tr><td><code>InstallTask.bat</code></td><td>以管理员运行后，将 ARS.bat 注册为每天凌晨 3:00 执行的系统计划任务</td></tr>
+                    <tr><td><code>Run\#1#Origin#RUN.bat</code></td><td>1服启动脚本。自动部署配置并拉起服务器</td></tr>
+                    <tr><td><code>Run\#2#Mod#RUN.bat</code></td><td>2服启动脚本。自动部署配置并拉起服务器</td></tr>
+                    <tr><td><code>ARSlog\ARSTaskLog.txt</code></td><td>记录每次主控执行的时间点和各步骤成败</td></tr>
+                    <tr><td><code>LogBackup\</code></td><td>每次重启前将服务器运行日志备份到此，文件名含时间戳</td></tr>
+                    <tr><td><code>Motd\</code></td><td>存放服务器公告文本，启动时自动部署到服务器</td></tr>
+                    <tr><td><code>Admin\</code></td><td>存放 SteamID 格式的管理员列表</td></tr>
+                    <tr><td><code>Map\</code></td><td>存放地图池配置文件，启动时按需部署</td></tr>
+                    <tr><td><code>Gameini\</code></td><td>存放游戏规则配置，启动时按需部署</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ===== 三、部署流程 ===== -->
+        <h2><i class="fas fa-rocket"></i> 三、部署流程 <span style="font-size:0.8rem;font-weight:400;color:var(--text-muted);">开包即用</span></h2>
+
+        <h3><span class="step-badge">1</span> 放置管理包</h3>
+        <p>将 <code>服务器管理包</code> 整个文件夹复制到 <code>sandstorm_server</code> 目录下：</p>
+        <div class="code-block">
+            sandstorm_server\<br />
+            ├─ InsurgencyServer.exe<br />
+            ├─ Engine\<br />
+            ├─ Insurgency\<br />
+            ├─ ...其他游戏文件...<br />
+            └─ <span style="color:var(--accent);font-weight:600;">服务器管理包\</span>          ← 放这里
+        </div>
+
+        <h3><span class="step-badge">2</span> 填写配置文件</h3>
+        <p>在管理包对应目录中填入你的配置：</p>
+        <div class="code-block">
+            Motd\<br />
+            &nbsp;&nbsp;#1#Origin#Motd.txt         <span class="comment">写1服公告内容</span><br />
+            &nbsp;&nbsp;#2#Mod#Motd.txt            <span class="comment">写2服公告内容</span><br />
+            <br />
+            Admin\<br />
+            &nbsp;&nbsp;Admins.txt                  <span class="comment">每行一个 SteamID</span><br />
+            <br />
+            Map\<br />
+            &nbsp;&nbsp;MapDayandNight.txt          <span class="comment">按沙暴地图池语法编写</span><br />
+            &nbsp;&nbsp;MapOnlyDay.txt              <span class="comment">备用地图池</span><br />
+            <br />
+            Gameini\<br />
+            &nbsp;&nbsp;#1#Origin#Game.ini          <span class="comment">1服游戏规则</span><br />
+            &nbsp;&nbsp;#2#Mod#Game.ini             <span class="comment">2服游戏规则</span>
+        </div>
+
+        <h3><span class="step-badge">3</span> 测试启动</h3>
+        <p>双击 <code>Run\#1#Origin#RUN.bat</code>：</p>
+        <ul>
+            <li>脚本自动创建服务器所需的 <code>Insurgency\Config\Server\</code> 和 <code>Insurgency\Saved\Config\WindowsServer\</code> 目录</li>
+            <li>自动将 Motd、Admin、Map、Game.ini 部署到对应位置</li>
+            <li>在新窗口拉起 1 服</li>
+        </ul>
+        <p>同样双击 <code>Run\#2#Mod#RUN.bat</code> 测试 2 服。</p>
+
+        <h3><span class="step-badge">4</span> 安装计划任务</h3>
+        <p>右键 <code>InstallTask.bat</code> → <strong>以管理员身份运行</strong>，即可创建每天凌晨 3:00 的自动重启任务。</p>
+        <div class="notice">
+            <i class="fas fa-pen"></i> 如需调整执行时间，编辑 <code>InstallTask.bat</code> 第 26 行的 <code>/st 03:00</code> 后重新运行。
+        </div>
+
+        <!-- ===== 四、修改配置 ===== -->
+        <h2><i class="fas fa-sliders"></i> 四、修改配置的方法</h2>
+
+        <h3><i class="fas fa-map"></i> 修改地图池</h3>
+        <p>编辑 <code>Run\</code> 下对应启动脚本的【配置开关】区域：</p>
+        <div class="code-block">
+            set "MAP_SET=MapDayandNight"       <span class="comment">← 改为 MapOnlyDay 即可切换</span><br />
+            set "GAMEINI_SET=#1#Origin#Game"   <span class="comment">← 改为其他 Game.ini 文件名</span>
+        </div>
+        <p>前提是 <code>Map\</code> 和 <code>Gameini\</code> 文件夹中已有对应文件。</p>
+
+        <h3><i class="fas fa-terminal"></i> 修改服务器启动参数</h3>
+        <p>编辑 <code>Run\</code> 下对应启动脚本的 <code>InsurgencyServer.exe</code> 行。1服和2服的核心参数已分开，互不影响。</p>
+
+        <h3><i class="fas fa-gear"></i> 修改主控行为</h3>
+        <p>编辑 <code>ARS.bat</code>。所有路径均自动定位，换设备无需改任何路径。</p>
+
+        <!-- ===== 五、日志说明 ===== -->
+        <h2><i class="fas fa-file-lines"></i> 五、日志说明</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>日志</th><th>位置</th><th>内容</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>主控日志</strong></td>
+                        <td><code>ARSlog\ARSTaskLog.txt</code></td>
+                        <td>时间、备份成败、进程关闭、启动状态</td>
+                    </tr>
+                    <tr>
+                        <td><strong>历史日志</strong></td>
+                        <td><code>LogBackup\#1#Origin#log#yyyy-MM-dd-HH-mm-ss.log</code></td>
+                        <td>重启前备份的1服运行日志</td>
+                    </tr>
+                    <tr>
+                        <td><strong>历史日志</strong></td>
+                        <td><code>LogBackup\#2#Mod#log#yyyy-MM-dd-HH-mm-ss.log</code></td>
+                        <td>重启前备份的2服运行日志</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ===== 六、计划任务管理 ===== -->
+        <h2><i class="fas fa-clock"></i> 六、计划任务管理</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>操作</th><th>命令</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>查看任务详情</td>
+                        <td><code>schtasks /query /tn "ARS重启任务" /v</code></td>
+                    </tr>
+                    <tr>
+                        <td>手动立即执行</td>
+                        <td><code>schtasks /run /tn "ARS重启任务"</code></td>
+                    </tr>
+                    <tr>
+                        <td>删除任务</td>
+                        <td><code>schtasks /delete /tn "ARS重启任务" /f</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>也可在 Windows 搜索栏输入 <code>taskschd.msc</code> 打开图形界面管理。</p>
+
+        <!-- ===== 七、注意事项 ===== -->
+        <h2><i class="fas fa-circle-exclamation"></i> 七、注意事项</h2>
+        <ol style="margin-bottom:0.4rem;">
+            <li>路径含 <code>#</code> 字符是沙暴服务器的启动参数规范，不影响 Windows 文件系统</li>
+            <li><code>copy /Y</code> 每次启动都会覆盖服务器目录中的配置文件，<strong>管理包中的文件是唯一真身</strong>，修改配置请直接改管理包内的文件</li>
+            <li>换设备/换路径时<strong>无需修改任何脚本</strong>，管理包自定位生效</li>
+            <li>计划任务以 <strong>SYSTEM 账户最高权限</strong>运行，无论是否登录都会执行</li>
+            <li><code>ARS.bat</code> 在关闭进程时若进程不存在则跳过，不会报错终止</li>
+        </ol>
+
+        <hr />
+
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;margin-top:0.8rem;color:var(--text-muted);font-size:0.85rem;">
+            <span><i class="fas fa-tag"></i> 沙暴服务器管理包 v1.0</span>
+            <span><i class="fas fa-rotate-right"></i> 一颗木楠制作</span>
+        </div>
+
+    </div>
+
+</body>
+</html>
